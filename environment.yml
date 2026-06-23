@@ -1,0 +1,13 @@
+name: fieldzero
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - numpy=1.26.*
+  - scipy=1.13.*
+  - matplotlib=3.9.*
+  - pandas=2.2.*
+  - pip
+  - pip:
+    - nidaqmx==1.0.*   # NI-DAQ Python API — requires NI-DAQmx driver installed separately
