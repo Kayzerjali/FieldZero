@@ -48,6 +48,15 @@ python scripts/figures/generate_all.py
 
 ## Setup
 
+Install dependencies directly into your existing Python environment:
+
+```bash
+pip install numpy scipy matplotlib pandas nidaqmx
+pip install -e .
+```
+
+`environment.yml` is kept in the repo as a version specification — it records the exact package versions used during development. If you need to reproduce the environment exactly (e.g. debugging a numerical discrepancy), create an isolated conda env from it:
+
 ```bash
 conda env create -f environment.yml
 conda activate fieldzero
