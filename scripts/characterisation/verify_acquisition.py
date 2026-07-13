@@ -1,67 +1,104 @@
 """
-Quick acquisition check — confirms NI-DAQ is reading both sensors on all axes.
-Run this first when arriving at the lab to verify hardware is up before starting
-any characterisation measurements.
+Quick acquisition check — confirms the DAQ is reading every channel.
+Run this first when arriving at the lab, before starting any characterisation.
 
 Usage:
-    python scripts/characterisation/verify_acquisition.py [--mock]
+    python scripts/characterisation/verify_acquisition.py [--mock] [--seconds 2]
 
-    --mock    Use MockSignal (no hardware required — for offline testing)
+Reports volts and pT side by side, and flags any channel sitting at the input
+rail. The rail check is the one that matters: a clipped channel still reports a
+mean that looks like a perfectly reasonable field value.
 """
 
 import argparse
 import sys
-import numpy as np
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
-from fieldzero.datasource import NIDAQ, MockSignal, is_saturated
 
-N_SAMPLES = 500
-SAMPLE_RATE = 1000
+from fieldzero.config import AppConfig
+from fieldzero.datasource import MockSignal, NIDAQ
+from fieldzero.reducers import channel_stats
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Verify NI-DAQ acquisition")
-    parser.add_argument("--mock", action="store_true", help="Use MockSignal instead of hardware")
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Verify DAQ acquisition")
+    parser.add_argument("--mock", action="store_true", help="use MockSignal, no hardware")
+    parser.add_argument("--seconds", type=float, default=2.0, help="capture duration")
+    parser.add_argument("--sample-rate", type=float, default=None)
     args = parser.parse_args()
 
-    print("FieldZero — Acquisition Verification")
-    print("=" * 40)
+    config = AppConfig()
+    if args.sample_rate is not None:
+        config = config.with_sample_rate(args.sample_rate)
+
+    # ASCII only: the default Windows console codepage mangles non-ASCII output.
+    print("FieldZero - acquisition verification")
+    print("=" * 68)
 
     if args.mock:
-        print("Mode: MockSignal (offline)")
-        source = MockSignal(sample_rate=SAMPLE_RATE)
+        source = MockSignal(config.daq)
+        source.start()
     else:
-        print("Mode: NI-DAQ hardware")
-        source = NIDAQ(sample_rate=SAMPLE_RATE, axis="all")
+        try:
+            source = NIDAQ(config.daq)
+        except Exception as exc:
+            print(f"ERROR: could not open the NI-DAQ: {exc}")
+            print("Run with --mock for an offline check.")
+            return 1
 
-    stream = source.data_stream(num_samples_per_read=N_SAMPLES)
-    data = None
-    for chunk in stream:
-        if chunk is not None:
-            data = chunk
-            break
+    vmin, vmax = config.daq.voltage_range
+    print(f"source      : {type(source).__name__}")
+    print(f"sample rate : {config.daq.sample_rate:g} Hz")
+    print(f"input range : {vmin:+g} .. {vmax:+g} V  ({config.daq.terminal_config})")
+    print(f"sensitivity : {config.calibration.sensitivity_v_per_nT} V/nT  (UNVERIFIED)")
+    print()
 
-    source.close()
+    try:
+        time.sleep(args.seconds)  # let the ring buffer fill
+        snapshot = source.get_data(int(args.seconds * config.daq.sample_rate))
+    finally:
+        source.close()
 
-    if data is None:
-        print("ERROR: No data received from source.")
-        sys.exit(1)
+    if snapshot.n_samples == 0:
+        print("ERROR: no samples arrived. Is the device present and wired?")
+        err = source.check_error()
+        if err:
+            print(f"       acquisition thread died: {err!r}")
+        return 1
 
-    print(f"\nData shape: {data.shape}  (channels × samples)")
-    print(f"Sample rate: {SAMPLE_RATE} Hz,  {N_SAMPLES} samples = {N_SAMPLES/SAMPLE_RATE:.2f} s\n")
+    stats_v = channel_stats(snapshot, config.calibration, "V", config.daq.voltage_range)
+    stats_pT = channel_stats(snapshot, config.calibration, "pT", config.daq.voltage_range)
 
-    labels = ["Sensor1-X", "Sensor1-Y", "Sensor1-Z", "Sensor2-X", "Sensor2-Y", "Sensor2-Z"]
-    print(f"{'Channel':<14} {'Mean (pT)':>12} {'Std (pT)':>10} {'Min (pT)':>10} {'Max (pT)':>10}")
-    print("-" * 60)
-    for i, label in enumerate(labels[:data.shape[0]]):
-        ch = data[i]
-        print(f"{label:<14} {np.mean(ch):>12.1f} {np.std(ch):>10.1f} {np.min(ch):>10.1f} {np.max(ch):>10.1f}")
+    print(f"{snapshot.n_samples} samples "
+          f"({snapshot.n_samples / config.daq.sample_rate:.2f} s) on "
+          f"{len(snapshot.channels)} channels\n")
 
-    print("\nNote: ceiling value for saturation detection must be set from M-01 measurement.")
-    print("      See docs/01_characterisation.md → M-01.")
+    header = f"{'channel':<9} {'mean (V)':>10} {'std (V)':>9} {'mean (pT)':>12} {'std (pT)':>10}   status"
+    print(header)
+    print("-" * len(header))
+
+    railed = []
+    for v, p in zip(stats_v, stats_pT):
+        status = ""
+        if v["saturated"]:
+            status = f"RAILED ({v['clipped_fraction'] * 100:.0f}% of samples)"
+            railed.append(v["name"])
+        print(f"{v['name']:<9} {v['mean']:>10.4f} {v['std']:>9.4f} "
+              f"{p['mean']:>12.1f} {p['std']:>10.1f}   {status}")
+
+    print()
+    if railed:
+        print(f"WARNING: at the input rail: {', '.join(railed)}")
+        print("         pT values for those channels are meaningless - the true field")
+        print("         is larger than the input range can represent. Reduce the field")
+        print("         or the sensor gain before trusting any number from them.")
+    else:
+        print("No channel is at the rail; all readings are within the input range.")
+
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

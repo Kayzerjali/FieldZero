@@ -27,3 +27,7 @@ Reduce the residual magnetic field inside the enclosure enough that the QuSpin i
 - Exact residual field magnitude and which axes are worst — must be measured
 - QuSpin internal capture range — need datasheet for confirmed gen
 - Whether existing cancellation coils are installed or enclosure is bare
+
+## Resources
+- A working example or capturing data from the qzfms can be seen in the repo
+"https://github.com/Kayzerjali/MEG_DSP.git".
