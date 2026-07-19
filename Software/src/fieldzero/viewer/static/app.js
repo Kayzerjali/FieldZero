@@ -307,11 +307,41 @@ function buildChannelPicker(pane) {
 
   const menu = document.createElement("div");
   menu.className = "chan-menu";
+
+  // Keep the button label and every checkbox in step with pane.channels after
+  // any change, whichever control drove it.
+  const syncMenu = () => {
+    btn.textContent = label();
+    for (const other of menu.querySelectorAll("input[type=checkbox]")) {
+      other.checked = pane.channels.includes(other.dataset.name);
+    }
+  };
+
   if (limit === 2) {
     const hint = document.createElement("div");
     hint.className = "hint";
     hint.textContent = "pick 2 — x, then y";
     menu.appendChild(hint);
+  } else {
+    // all / none, so going from six traces to one is not five unticks.
+    const quick = document.createElement("div");
+    quick.className = "chan-quick";
+    const mk = (text, names) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "mini"; b.textContent = text;
+      b.onclick = (e) => {
+        e.stopPropagation();
+        pane.channels = names();
+        syncMenu();
+        rerenderPane(pane);
+      };
+      return b;
+    };
+    quick.append(
+      mk("all", () => SESSION.channels.map((c) => c.name)),
+      mk("none", () => []),
+    );
+    menu.appendChild(quick);
   }
 
   for (const ch of SESSION.channels) {
@@ -328,14 +358,15 @@ function buildChannelPicker(pane) {
       } else {
         pane.channels = pane.channels.filter((n) => n !== ch.name);
       }
-      btn.textContent = label();
-      for (const other of menu.querySelectorAll("input")) {
-        other.checked = pane.channels.includes(other.dataset.name);
-      }
+      syncMenu();
       rerenderPane(pane);
     };
     cb.dataset.name = ch.name;
-    row.append(cb, ch.name);
+    // Swatch in the same colour the trace uses, so the name maps to a line.
+    const sw = document.createElement("span");
+    sw.className = "leg-sw";
+    sw.style.background = colorForChannel(SESSION, ch.name);
+    row.append(cb, sw, ch.name);
     menu.appendChild(row);
   }
 
@@ -459,6 +490,21 @@ function renderStats(stats) {
   const table = $("#stats");
   if (!stats || stats.length === 0) { table.innerHTML = ""; return; }
   const u = stats[0].units;
+
+  // A railed channel reports a plausible-looking mean while being pure fiction,
+  // and the row that says so scrolls at the bottom of a table. Raise it to a
+  // banner that cannot be missed — this is the field-too-strong failure the
+  // whole rig exists to catch.
+  const railed = stats.filter((s) => s.saturated).map((s) => s.name);
+  const banner = $("#rail-banner");
+  if (railed.length) {
+    banner.textContent =
+      `⚠ RAILED: ${railed.join(", ")} — these readings are not real field values`;
+    banner.classList.add("show");
+  } else {
+    banner.textContent = "";
+    banner.classList.remove("show");
+  }
 
   if (table.dataset.units !== u || table.rows.length !== stats.length + 1) {
     table.innerHTML = "";

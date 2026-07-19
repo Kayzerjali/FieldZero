@@ -11,18 +11,23 @@ In development — lab access pending.
 ## Repository layout
 
 ```
-docs/               Project documentation (grows as work progresses)
+docs/                 Project documentation (grows as work progresses)
 data/
-  raw/              Unmodified instrument output (write-once)
-  processed/        Script outputs only — never hand-edit
-scripts/
-  characterisation/ Field measurement and analysis
-  coil_cal/         Coil sensitivity calibration
-  nulling/          Nulling procedure support
-  figures/          All figure generation
-src/fieldzero/      Python package
-tests/
+  raw/                Unmodified instrument output (write-once)
+  processed/          Script outputs only — never hand-edit
+Hardware/             KiCad — coil-driver PCB (see Hardware/Low_Current_Driver/)
+  Common/             Shared symbol/footprint libraries
+Software/             Python acquisition/analysis tooling
+  src/fieldzero/      Python package
+  scripts/
+    characterisation/ Field measurement and analysis
+    coil_cal/         Coil sensitivity calibration
+    nulling/          Nulling procedure support
+    figures/          All figure generation
+  tests/
 ```
+
+The Python setup and commands below are run from inside `Software/`.
 
 ## Setup
 

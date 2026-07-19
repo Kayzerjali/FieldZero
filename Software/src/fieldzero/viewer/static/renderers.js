@@ -15,6 +15,45 @@ const SERIES_COLORS = [
   "#4da3ff", "#4ade80", "#fbbf24", "#f472b6", "#a78bfa", "#22d3ee",
 ];
 
+// Colour is a property of the channel, not of its position in a pane's series
+// list. Keying on the channel's index in the session map means S1-Z is the same
+// colour in every pane and every legend, so the swatch in the picker and the
+// trace on the plot always agree — the one thing that lets you read a six-trace
+// overlay at all.
+function colorForChannel(session, name) {
+  const i = session.channels.findIndex((c) => c.name === name);
+  return SERIES_COLORS[(i < 0 ? 0 : i) % SERIES_COLORS.length];
+}
+
+// Auto-range that ignores flat (railed or dead) channels. A constant trace
+// carries no scale information, and letting a channel pinned at the rail set the
+// y-range squashes every healthy channel into a sliver. Excluding it lets the
+// dead channel fall off-scale instead — the same honest choice the spectrum pane
+// already makes. Falls back to the full span only when every channel is flat.
+function robustRange(series) {
+  let lo = Infinity, hi = -Infinity;        // over channels with real variation
+  let loAll = Infinity, hiAll = -Infinity;  // fallback when all are flat
+  for (const y of series) {
+    let mn = Infinity, mx = -Infinity;
+    for (let i = 0; i < y.length; i++) {
+      const v = y[i];
+      if (v < mn) mn = v;
+      if (v > mx) mx = v;
+    }
+    if (mn < loAll) loAll = mn;
+    if (mx > hiAll) hiAll = mx;
+    const scale = Math.max(Math.abs(mn), Math.abs(mx), 1e-12);
+    if (mx - mn > 1e-6 * scale) {           // has real variation
+      if (mn < lo) lo = mn;
+      if (mx > hi) hi = mx;
+    }
+  }
+  if (!(lo < hi)) { lo = loAll; hi = hiAll; }   // all flat: show everything
+  if (!(lo < hi)) return [null, null];          // no data: let uPlot decide
+  const pad = (hi - lo) * 0.06 || Math.abs(hi) * 0.06 || 1;
+  return [lo - pad, hi + pad];
+}
+
 const AXIS_STYLE = {
   stroke: "#8c98a8",
   grid: { stroke: "#232a34", width: 1 },
@@ -42,6 +81,13 @@ class UplotRenderer extends Renderer {
     super(el, spec, session);
     this.plot = null;
     this.seriesKey = null;
+    // Our own legend, kept out of the plot so uPlot's built-in one — which lands
+    // just under the canvas and is clipped away by the pane's overflow:hidden —
+    // never has to be relied on. A sibling of uPlot's root, so plot.destroy()
+    // leaves it alone.
+    this._legendEl = document.createElement("div");
+    this._legendEl.className = "plot-legend";
+    el.appendChild(this._legendEl);
     this._ro = new ResizeObserver(() => this.resize());
     this._ro.observe(el);
   }
@@ -54,14 +100,31 @@ class UplotRenderer extends Renderer {
     const opts = this.options(names);
     opts.width = this.el.clientWidth || 400;
     opts.height = this.el.clientHeight || 200;
-    opts.series = [{}].concat(names.map((n, i) => ({
+    opts.series = [{}].concat(names.map((n) => ({
       label: n,
-      stroke: SERIES_COLORS[i % SERIES_COLORS.length],
+      stroke: colorForChannel(this.session, n),
       width: 1.2,
       points: { show: false },
     })));
     this.plot = new uPlot(opts, data, this.el);
     this.seriesKey = names.join("|");
+    this._buildLegend(names);
+  }
+
+  // Shown only when more than one trace shares the pane; a single trace is named
+  // by the pane's channel picker and the axis, so a legend would just cover data.
+  _buildLegend(names) {
+    this._legendEl.innerHTML = "";
+    if (names.length < 2) return;
+    for (const n of names) {
+      const item = document.createElement("span");
+      item.className = "leg-item";
+      const sw = document.createElement("span");
+      sw.className = "leg-sw";
+      sw.style.background = colorForChannel(this.session, n);
+      item.append(sw, document.createTextNode(n));
+      this._legendEl.appendChild(item);
+    }
   }
 
   // The plot is built from the first frame that actually carries points, never
@@ -74,14 +137,19 @@ class UplotRenderer extends Renderer {
     const x = pane.data.x;
     if (!x || x.length === 0) return;
 
-    const data = [x].concat(
-      names.map((n) => this.transform(pane.data[n] || new Float32Array(x.length)))
+    const series = names.map(
+      (n) => this.transform(pane.data[n] || new Float32Array(x.length))
     );
+    // Give subclasses the transformed series before the draw, so a managed scale
+    // (see TimeRenderer) is up to date on the same frame rather than one behind.
+    this.beforeSetData(series, names);
+    const data = [x].concat(series);
     if (names.join("|") !== this.seriesKey) this._rebuild(names, data);
     if (this.plot) this.plot.setData(data);
   }
 
   transform(y) { return y; }
+  beforeSetData(series, names) {}
 
   resize() {
     if (this.plot && this.el.clientWidth > 0 && this.el.clientHeight > 0) {
@@ -93,6 +161,7 @@ class UplotRenderer extends Renderer {
     this._ro.disconnect();
     if (this.plot) this.plot.destroy();
     this.plot = null;
+    if (this._legendEl) this._legendEl.remove();
   }
 }
 
@@ -102,19 +171,43 @@ class TimeRenderer extends UplotRenderer {
   options(names) {
     const yr = this.spec.opts || {};
     const manual = yr.y_auto === false && yr.y_min != null && yr.y_max != null;
+    this._manual = manual;
+    this._autoRange = [null, null];
     return {
       padding: [8, 12, 0, 0],
       cursor: { drag: { x: true, y: false } },
-      legend: { show: names.length > 1 },
+      legend: { show: false },   // replaced by our own, unclipped, legend
       scales: {
         x: { time: false },
-        y: manual ? { auto: false, range: [Number(yr.y_min), Number(yr.y_max)] } : { auto: true },
+        // Even in "auto" we drive the range ourselves so a railed channel does
+        // not dominate it (robustRange). uPlot's own auto has no per-series veto.
+        y: manual
+          ? { auto: false, range: [Number(yr.y_min), Number(yr.y_max)] }
+          : { auto: false, range: () => this._autoRange },
       },
       axes: [
         { ...AXIS_STYLE, label: "time (s)", labelSize: 18 },
         { ...AXIS_STYLE, label: this.spec.units, labelSize: 18, size: 62 },
       ],
     };
+  }
+
+  // Optional AC coupling: subtract each channel's own mean so traces with very
+  // different DC offsets (the residual field differs axis to axis) overlay on a
+  // common fine scale instead of sitting decades apart. The stats table still
+  // reports the true means.
+  transform(y) {
+    if (!(this.spec.opts || {}).remove_dc) return y;
+    let sum = 0;
+    for (let i = 0; i < y.length; i++) sum += y[i];
+    const mean = sum / (y.length || 1);
+    const out = new Float32Array(y.length);
+    for (let i = 0; i < y.length; i++) out[i] = y[i] - mean;
+    return out;
+  }
+
+  beforeSetData(series) {
+    if (!this._manual) this._autoRange = robustRange(series);
   }
 
   readout(pane) {
@@ -138,7 +231,7 @@ class SpectrumRenderer extends UplotRenderer {
     return {
       padding: [8, 12, 0, 0],
       cursor: { drag: { x: true, y: false } },
-      legend: { show: names.length > 1 },
+      legend: { show: false },   // replaced by our own, unclipped, legend
       scales: {
         x: { time: false },
         y: logY
@@ -319,6 +412,7 @@ const KIND_UI = {
     label: "Time",
     channels: "many",
     controls: [
+      { key: "remove_dc", type: "check", label: "remove DC", default: false },
       { key: "y_auto", type: "check", label: "auto-y", default: true },
       { key: "y_min", type: "number", label: "min", showWhen: (o) => o.y_auto === false },
       { key: "y_max", type: "number", label: "max", showWhen: (o) => o.y_auto === false },

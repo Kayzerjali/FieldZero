@@ -79,6 +79,23 @@
   .chan-menu.open { display: block; }
   .chan-menu label { display: flex; align-items: center; gap: 6px; padding: 2px 0; color: var(--fg); cursor: pointer; }
   .chan-menu .hint { color: var(--dim); font-size: 11px; padding-bottom: 4px; }
+  .chan-quick { display: flex; gap: 6px; padding-bottom: 6px; margin-bottom: 4px; border-bottom: 1px solid var(--edge); }
+  button.mini { padding: 1px 8px; font-size: 11px; color: var(--dim); }
+
+  /* colour swatch shared by the channel picker and the on-plot legend */
+  .leg-sw { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; display: inline-block; }
+
+  /* on-plot legend — an overlay, so it never fights uPlot for layout height */
+  .plot-legend {
+    position: absolute; top: 6px; left: 70px; z-index: 5;
+    display: flex; flex-wrap: wrap; gap: 4px 12px;
+    pointer-events: none; max-width: calc(100% - 90px);
+  }
+  .plot-legend .leg-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--fg);
+    background: rgba(18, 21, 26, .66); padding: 1px 6px; border-radius: 3px;
+  }
   .plot { flex: 1 1 auto; min-height: 0; position: relative; overflow: hidden; }
   .plot .err {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
@@ -98,6 +115,15 @@
   #stats tr.sat td { color: var(--warn); }
   #stats .flag { font-weight: 600; }
   #warn-bar { color: var(--warn); font-size: 12px; padding: 4px 0 0; }
+
+  /* railed banner — full-width, unmissable; collapses to nothing when healthy */
+  #rail-banner {
+    display: none; flex: 0 0 auto;
+    background: var(--warn); color: #1a0000;
+    font-weight: 600; font-size: 13px; text-align: center;
+    padding: 6px 12px;
+  }
+  #rail-banner.show { display: block; }
 </style>
 </head>
 <body>
@@ -114,6 +140,8 @@
   <button id="reset-layout">Reset</button>
   <span id="conn">…</span>
 </div>
+
+<div id="rail-banner"></div>
 
 <div id="layout"></div>
 

@@ -31,7 +31,28 @@ docs/**/*.svg
 .vscode/
 .idea/
 *.suo
+.history/
+
+# KiCad session / lock / autosave / backup cruft (not the design files)
+*.kicad_prl
+*.lck
+~*.lck
+*-backups/
+*.kicad_pcb-bak
+_autosave-*
+fp-info-cache
 
 # OS
 Thumbs.db
 .DS_Store
+
+# Claude Code local state (worktrees, job state, machine-local settings)
+.claude/
+
+# Upstream reference clone — kept locally only; see context.md for the repo URL
+docs/Vernier-Current-Driver/
+
+# Abandoned MCU choice (ESP32-S3) — superseded by the Arduino Nano R4
+Hardware/ESP32-S3-DEVKITC-1U-N8R8.STEP
+Hardware/ESP32-S3-DEVKITC-1U-N8R8.kicad_sym
+Hardware/MODULE_ESP32-S3-DEVKITC-1U-N8R8.kicad_mod

@@ -1,0 +1,6 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "vernier_current_driver") (type "Legacy") (uri "${KIPRJMOD}/../common/vernier_current_driver.lib") (options "") (descr ""))
+	(lib (name "Low_Current_Driver-cache") (type "Legacy") (uri "C:/Users/kegse/QUBIC/FieldZero/Vernier-Current-Driver/Hardware/PCBs/Low_Current_Driver/Low_Current_Driver-cache.lib") (options "") (descr "Legacy project cache library"))
+	(lib (name "ESP32S3") (type "KiCad") (uri "C:/Users/kegse/QUBIC/FieldZero/Hardware/ESP32-S3-DEVKITC-1U-N8R8.kicad_sym") (options "") (descr ""))
+)
