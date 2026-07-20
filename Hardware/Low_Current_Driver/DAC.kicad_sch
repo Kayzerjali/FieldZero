@@ -4687,6 +4687,16 @@
 		)
 		(uuid "fef2bb61-3bf2-4152-ac73-ad47d41b93b1")
 	)
+	(label "Iout_B"
+		(at 179.07 82.55 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "10069f9f-7df1-40a4-8b85-1cdd6fcf12e5")
+	)
 	(label "Vref_2.5V"
 		(at 215.9 39.37 180)
 		(effects
@@ -4707,6 +4717,16 @@
 		)
 		(uuid "50a8d9dd-7c31-4390-a62f-2ad5c4383783")
 	)
+	(label "Vout_B_DAC"
+		(at 205.74 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6076fcda-5e48-4015-a1bb-fc85e5a17387")
+	)
 	(label "Vref_2.5V"
 		(at 215.9 74.93 180)
 		(effects
@@ -4726,6 +4746,46 @@
 			(justify left bottom)
 		)
 		(uuid "7f80222e-650e-4bad-a705-60ba76556fce")
+	)
+	(label "I_outA"
+		(at 177.8 46.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "908487ce-eeb9-4a2c-8ab0-06aeb5217321")
+	)
+	(label "Vout_A_DAC"
+		(at 208.28 49.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "92939fd8-0206-434b-9bd7-3b1555960f36")
+	)
+	(label "Vout_B"
+		(at 256.54 87.63 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "94cc366f-51b6-437b-bfee-2750010150e3")
+	)
+	(label "Vout_A"
+		(at 256.54 52.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a9520cf4-9ed3-4387-b730-8aa5ab31574d")
 	)
 	(label "Vref_2.5V"
 		(at 118.11 24.13 180)

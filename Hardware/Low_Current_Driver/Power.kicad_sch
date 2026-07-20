@@ -8330,7 +8330,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 72.39 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -8486,7 +8486,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 67.31 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -8640,7 +8640,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "fieldZero:DPST_RA83231100"
 			(at 41.91 33.02 0)
 			(hide yes)
 			(show_name no)
@@ -8684,7 +8684,7 @@
 				)
 			)
 		)
-		(property "DigiKey" "https://www.digikey.com/en/products/detail/e-switch/RA83231100/EG5682-ND"
+		(property "DigiKey" "https://www.digikey.com/en/products/detail/e-switch/RA83231100/8540806"
 			(at 41.91 33.02 0)
 			(hide yes)
 			(show_name no)

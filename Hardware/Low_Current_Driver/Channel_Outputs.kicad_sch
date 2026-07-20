@@ -2252,6 +2252,66 @@
 		)
 		(uuid "fb3a9287-c37c-4348-b722-cb1d75a23caa")
 	)
+	(label "U13Bin+"
+		(at 156.21 102.87 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "38674ca9-8b99-44da-b867-f730a2aeead5")
+	)
+	(label "U12Bin+"
+		(at 156.21 41.91 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5cadd8c9-cb6d-4cb8-86d2-bae90d97b9d4")
+	)
+	(label "U12Bout"
+		(at 171.45 39.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5fd45c64-c299-4079-a91b-d0398a632f90")
+	)
+	(label "U13Bin-"
+		(at 156.21 97.79 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "949b0a2a-d2df-46a2-9e96-8571686e6830")
+	)
+	(label "U12Bin-"
+		(at 156.21 36.83 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ded93167-a9d5-49ba-b28d-912245e1eab7")
+	)
+	(label "U13Bout"
+		(at 171.45 100.33 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e5a367ad-ada9-4441-a573-1faeb88f5751")
+	)
 	(hierarchical_label "Coil_Iout_R2"
 		(shape output)
 		(at 158.75 123.19 0)
