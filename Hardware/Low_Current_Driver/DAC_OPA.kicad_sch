@@ -2421,7 +2421,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10B104KB8NNNC"
+		(property "MPN" "C0603C104K5RACTU"
 			(at 46.99 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -2432,7 +2432,7 @@
 				)
 			)
 		)
-		(property "DigiKey" "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10B104KB8NNNC/3886658"
+		(property "DigiKey" "https://www.digikey.com/en/products/detail/kemet/C0603C104K5RACTU/1465594"
 			(at 46.99 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -3078,7 +3078,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10B104KB8NNNC"
+		(property "MPN" "C0603C104K5RACTU"
 			(at 173.99 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -3089,7 +3089,7 @@
 				)
 			)
 		)
-		(property "DigiKey" "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10B104KB8NNNC/3886658"
+		(property "DigiKey" "https://www.digikey.com/en/products/detail/kemet/C0603C104K5RACTU/1465594"
 			(at 173.99 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -3184,7 +3184,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10B104KB8NNNC"
+		(property "MPN" "C0603C104K5RACTU"
 			(at 77.47 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -3195,7 +3195,7 @@
 				)
 			)
 		)
-		(property "DigiKey" "https://www.digikey.com/en/products/detail/samsung-electro-mechanics/CL10B104KB8NNNC/3886658"
+		(property "DigiKey" "https://www.digikey.com/en/products/detail/kemet/C0603C104K5RACTU/1465594"
 			(at 77.47 151.13 0)
 			(hide yes)
 			(show_name no)

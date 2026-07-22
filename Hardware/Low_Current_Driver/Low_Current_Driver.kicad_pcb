@@ -126,8 +126,8 @@
 			(layerselection 0x00000000_00000000_55555555_5755f5ff)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
 			(disableapertmacros no)
-			(usegerberextensions no)
-			(usegerberattributes yes)
+			(usegerberextensions yes)
+			(usegerberattributes no)
 			(usegerberadvancedattributes no)
 			(creategerberjobfile no)
 			(dashed_line_dash_ratio 12)
@@ -135,7 +135,7 @@
 			(svgprecision 4)
 			(plotframeref no)
 			(mode 1)
-			(useauxorigin yes)
+			(useauxorigin no)
 			(pdf_front_fp_property_popups yes)
 			(pdf_back_fp_property_popups yes)
 			(pdf_metadata yes)
@@ -151,12 +151,12 @@
 			(hidednponfab no)
 			(sketchdnponfab yes)
 			(crossoutdnponfab yes)
-			(subtractmaskfromsilk no)
+			(subtractmaskfromsilk yes)
 			(outputformat 1)
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "gerber/")
+			(outputdirectory "fab/")
 		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_D1.0mm"
@@ -165,8 +165,8 @@
 		(at 232.65 102.12)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP31"
-			(at 3.25 0 0)
+		(property "Reference" "HCP"
+			(at -2.25 -0.25 90)
 			(layer "F.SilkS")
 			(uuid "3b09f45c-d240-4933-a940-e83985f8fe56")
 			(effects
@@ -2145,7 +2145,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor handsolder")
 		(property "Reference" "C38"
-			(at -1.03 2.05 0)
+			(at -0.48 -2.45 0)
 			(layer "F.SilkS")
 			(uuid "023826b3-4e72-4658-84b1-b20741b5503d")
 			(effects
@@ -2328,8 +2328,8 @@
 		(at 218.4 91.82)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP46"
-			(at 2.75 0.05 90)
+		(property "Reference" "GND"
+			(at 2.5 -0.95 180)
 			(layer "F.SilkS")
 			(uuid "2b1b92b9-f1b8-4073-8ea6-339b71b7de0e")
 			(effects
@@ -2805,8 +2805,8 @@
 		(at 203.9 75.87)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP16"
-			(at 3 -0.25 0)
+		(property "Reference" "GND"
+			(at 1.25 -2 0)
 			(layer "F.SilkS")
 			(uuid "64e690a7-7ebc-46e5-bcbe-7b9cf23d2391")
 			(effects
@@ -2915,7 +2915,7 @@
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor handsolder")
 		(property "Reference" "R39"
-			(at 3.2875 -0.25 0)
+			(at -0.2125 -1.75 0)
 			(layer "F.SilkS")
 			(uuid "fadab852-f280-41bd-98d7-5b200cf7e149")
 			(effects
@@ -4249,7 +4249,7 @@
 		(at 198.15 96.62)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP28"
+		(property "Reference" "MSB"
 			(at 0 2.75 90)
 			(layer "F.SilkS")
 			(uuid "e8e5c1d7-c387-4ac6-afb9-fd74885e105c")
@@ -4542,8 +4542,8 @@
 		(at 218.0375 79.62)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP49"
-			(at 0 -1.448 0)
+		(property "Reference" "GND"
+			(at 0 -1.75 0)
 			(layer "F.SilkS")
 			(uuid "eb056352-3d8a-4127-9d0d-1a3e87f6dd1f")
 			(effects
@@ -5756,7 +5756,7 @@
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor handsolder")
 		(property "Reference" "R37"
-			(at 2.095 2.8225 180)
+			(at 1.345 2.0725 180)
 			(layer "F.SilkS")
 			(uuid "c48ccb07-50ca-4781-aaa4-3ab5e8d61c20")
 			(effects
@@ -6968,8 +6968,8 @@
 		(at 218.4 94.0325)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP45"
-			(at 2.25 1.3375 0)
+		(property "Reference" "DAC1"
+			(at 2.75 -0.6625 0)
 			(layer "F.SilkS")
 			(uuid "cefc9294-1d6b-4634-9a17-4fdfcb698572")
 			(effects
@@ -7629,8 +7629,8 @@
 		(at 200.65 75.87)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP15"
-			(at 2.75 -3.75 0)
+		(property "Reference" "2.5V"
+			(at 0.5 -2 0)
 			(layer "F.SilkS")
 			(uuid "bcce9927-f5c4-4b05-9a8b-95091731ba03")
 			(effects
@@ -9192,7 +9192,7 @@
 		(at 241.9 105.12)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP33"
+		(property "Reference" "Coil"
 			(at 0 1.75 180)
 			(layer "F.SilkS")
 			(uuid "ff160f62-d531-4afd-a73d-a8f520ff2afa")
@@ -9494,8 +9494,8 @@
 		(at 232.45 90.1)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP32"
-			(at -7.4364 1.2423 90)
+		(property "Reference" "HCP"
+			(at -1.8 -0.23 90)
 			(layer "F.SilkS")
 			(uuid "e1d8f36c-0cc8-4e28-a50d-f4b747a8b9b0")
 			(effects
@@ -11506,7 +11506,7 @@
 		(at 218.0375 82.215)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP48"
+		(property "Reference" "DAC2"
 			(at 2.6125 -1.095 0)
 			(layer "F.SilkS")
 			(uuid "1040160d-5783-4844-92be-c352cb0b9ff5")
@@ -12579,11 +12579,11 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.0mm"
 		(layer "F.Cu")
 		(uuid "c9e3e1a8-c90a-4fe7-88e5-d723b57ae430")
-		(at 234.7 90.1)
+		(at 242.44 93.1)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP35"
-			(at 7.8 0 90)
+		(property "Reference" "Coil"
+			(at -0.04 1.77 180)
 			(layer "F.SilkS")
 			(uuid "01b6118c-3953-4845-b1aa-23e3b2daa0e0")
 			(effects
@@ -12692,7 +12692,7 @@
 		(descr "LCC, ceramic leaded chip carrier, 8 pins, surface mount, Analog Devices LS8, 5x5mm, height 1.45mm, https://www.analog.com/media/en/technical-documentation/data-sheets/ltc6655-6655ln.pdf")
 		(tags "lcc smt")
 		(property "Reference" "U7"
-			(at -1.35 -3.02 180)
+			(at -1.85 4.5425 180)
 			(layer "F.SilkS")
 			(uuid "59572e78-45b2-4fb4-a953-fcde49ec1471")
 			(effects
@@ -13352,8 +13352,8 @@
 		(at 189.65 96.87)
 		(descr "SMD pad as test Point, diameter 1.0mm")
 		(tags "test point SMD pad")
-		(property "Reference" "TP30"
-			(at -3 1 0)
+		(property "Reference" "RS"
+			(at -1.25 -1.75 0)
 			(layer "F.SilkS")
 			(uuid "04e07870-c5d2-4a20-ba74-7b5fd7689842")
 			(effects
@@ -15360,6 +15360,18 @@
 		(fill no)
 		(layer "Edge.Cuts")
 		(uuid "a7d7bb22-67ac-4c78-8f5b-20a12ce77773")
+	)
+	(gr_text "Differential Low Current Driver\nDesigner: Kayzer\nDate: 23/07/2026\nContact: s4962116@student.uq.edu.au\nVersion: v010"
+		(at 135.15 114.37 0)
+		(layer "F.SilkS")
+		(uuid "46c63797-70ec-47bb-96f0-b924db242e29")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
 	)
 	(segment
 		(start 231.4 94.69)
