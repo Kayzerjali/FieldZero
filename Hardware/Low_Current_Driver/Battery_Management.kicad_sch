@@ -5,13 +5,14 @@
 	(uuid "f12a7eda-dba5-4aa4-956e-dfcdc52df408")
 	(paper "A4")
 	(title_block
-		(title "\"Vernier\" Low Current Driver - LCD")
-		(date "2021-05-18")
-		(rev "1.1.0")
-		(company "Strathclyde University")
-		(comment 1 "Designed by: Marcin Mrozowski")
-		(comment 2 "Checked by: ")
+		(title "FieldZero Coil Driver - Low Current Driver (2 ch, +/-10 mA)")
+		(date "2026-07-22")
+		(rev "0.1")
+		(company "QUBIC MEG Lab")
+		(comment 1 "Designed by: Kayzer")
+		(comment 2 "Checked by:")
 		(comment 3 "Approved by:")
+		(comment 4 "Derived from the Vernier Current Driver - M. Mrozowski, Strathclyde EQOP (arXiv:2207.10348)")
 	)
 	(lib_symbols
 		(symbol "Comparator:LM393"

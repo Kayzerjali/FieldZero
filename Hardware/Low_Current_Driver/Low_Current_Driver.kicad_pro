@@ -39,18 +39,18 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.762,
-          "height": 1.524,
-          "width": 1.524
+          "drill": 0.0,
+          "height": 0.4,
+          "width": 1.9
         },
-        "silk_line_width": 0.12,
+        "silk_line_width": 0.127,
         "silk_text_italic": false,
-        "silk_text_size_h": 0.7,
-        "silk_text_size_v": 0.7,
-        "silk_text_thickness": 0.127,
+        "silk_text_size_h": 1.0,
+        "silk_text_size_v": 1.0,
+        "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "border_display_style": 2,
+          "border_display_style": 0,
           "border_hatch_pitch": 0.5,
           "corner_radius": 0.0,
           "corner_smoothing": 0,
@@ -60,11 +60,11 @@
           "hatch_smoothing_level": 0,
           "hatch_smoothing_value": 0.1,
           "hatch_thickness": 1.0,
-          "min_clearance": 0.127,
+          "min_clearance": 0.0,
           "min_island_area": 10.0,
           "min_thickness": 0.25,
           "pad_connection": 1,
-          "remove_islands": 0,
+          "remove_islands": 1,
           "thermal_relief_gap": 0.5,
           "thermal_relief_spoke_width": 0.5
         }
@@ -149,23 +149,23 @@
       "rule_severitieslegacy_no_courtyard_defined": false,
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.09,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.025,
+        "min_copper_edge_clearance": 0.2,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.25,
-        "min_hole_to_hole": 0.25,
+        "min_hole_to_hole": 0.2,
         "min_microvia_diameter": 0.2,
         "min_microvia_drill": 0.1,
         "min_resolved_spokes": 2,
         "min_silk_clearance": 0.0,
-        "min_text_height": 0.8,
-        "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.254,
-        "min_track_width": 0.127,
-        "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.4572,
-        "solder_mask_to_copper_clearance": 0.0,
+        "min_text_height": 1.0,
+        "min_text_thickness": 0.15,
+        "min_through_hole_diameter": 0.15,
+        "min_track_width": 0.09,
+        "min_via_annular_width": 0.15,
+        "min_via_diameter": 0.25,
+        "solder_mask_to_copper_clearance": 0.09,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -258,8 +258,8 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.4572,
-          "drill": 0.254
+          "diameter": 0.6,
+          "drill": 0.3
         },
         {
           "diameter": 0.9144,
@@ -279,7 +279,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": "1.1.0"
+      "sch_revision": "0.1"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -534,7 +534,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.127,
+        "clearance": 0.15,
         "diff_pair_gap": 0.127,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.127,
@@ -543,26 +543,25 @@
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": -1,
+        "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.127,
+        "track_width": 0.2,
         "tuning_profile": "",
-        "via_diameter": 0.4572,
-        "via_drill": 0.254,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
         "wire_width": 6
       },
       {
         "bus_width": 12,
         "clearance": 0.127,
         "diff_pair_gap": 0.127,
-        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.127,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "OSHPARK 4-L",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": -1,
+        "priority": 0,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.127,
         "tuning_profile": "",
@@ -1159,7 +1158,7 @@
         "uuid": "f3b999b2-351b-4bd9-b912-3db082ddbf64"
       }
     ],
-    "used_designators": "J1-2,#FLG1-7,U1,SW1,TP1-2,D1,#PWR1-4,#PWR6-9,#PWR113,#PWR166",
+    "used_designators": "J1-2,R26-31,R33-34,R36-37,R40-41,R46-47,#FLG1-11,U1,U11,U13-14,SW1-2,TP1-4,TP32,TP35-36,TP45-46,TP48-49,D1,#PWR1-4,#PWR6-25,#PWR113,#PWR119-120,#PWR148-149,#PWR155,#PWR164-168,#PWR173,#PWR176-183,#PWR185,#PWR188-191,#PWR197-200,#PWR203-204,#PWR206-212,C19-21,C26-27,C31-34,C36,C39-41,C50,C53,C55,H1-5",
     "variants": []
   },
   "sheets": [
@@ -1168,8 +1167,12 @@
       "Low_Current_Driver"
     ],
     [
-      "00000000-0000-0000-0000-00005e1dd6a9",
-      "Power"
+      "96e12c7b-6377-4455-8771-85d7c5a2804c",
+      "DAC_Buffer_A"
+    ],
+    [
+      "4d7bc3b9-6d8f-4c91-8a03-c2ac5deb5184",
+      "DAC_Buffer_B"
     ],
     [
       "00000000-0000-0000-0000-00005e1deb8c",
@@ -1181,7 +1184,11 @@
     ],
     [
       "00000000-0000-0000-0000-00005e1e279e",
-      "Channel_Outputs"
+      "Coil_Drive_A"
+    ],
+    [
+      "a965fe0b-c8c4-4939-a09e-eaac36bc6646",
+      "Coil_Drive_B"
     ]
   ],
   "text_variables": {},

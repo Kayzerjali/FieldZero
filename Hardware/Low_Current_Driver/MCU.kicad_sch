@@ -5,13 +5,14 @@
 	(uuid "56a1341c-bc95-45cf-85dc-1aa5a3eefafd")
 	(paper "A4")
 	(title_block
-		(title "\"Vernier\" Low Current Driver - LCD")
-		(date "2021-05-18")
-		(rev "1.1.0")
-		(company "Strathclyde University")
-		(comment 1 "Designed by: Marcin Mrozowski")
-		(comment 2 "Checked by: ")
+		(title "FieldZero Coil Driver - Low Current Driver (2 ch, +/-10 mA)")
+		(date "2026-07-22")
+		(rev "0.1")
+		(company "QUBIC MEG Lab")
+		(comment 1 "Designed by: Kayzer")
+		(comment 2 "Checked by:")
 		(comment 3 "Approved by:")
+		(comment 4 "Derived from the Vernier Current Driver - M. Mrozowski, Strathclyde EQOP (arXiv:2207.10348)")
 	)
 	(lib_symbols
 		(symbol "Connector:TestPoint_Probe"
@@ -1070,6 +1071,121 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:GNDD"
 			(power global)
 			(pin_numbers
@@ -1332,16 +1448,6 @@
 		)
 		(uuid "c03fea62-5f92-4b02-8190-2f8d4b46394d")
 	)
-	(text "diode to stop backpowering 9V rail\nwhen powering nano with USB"
-		(exclude_from_sim no)
-		(at 125.222 58.42 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "d096c9b9-11da-4216-a406-efec2d3f7e86")
-	)
 	(no_connect
 		(at 161.29 99.06)
 		(uuid "062256ef-1d34-43dd-a45b-ebc51f245e12")
@@ -1430,26 +1536,6 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 153.67) (xy 105.41 153.67)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1985af08-b3a4-4e46-8354-0e6439b8dade")
-	)
-	(wire
-		(pts
-			(xy 105.41 157.48) (xy 88.9 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54ef7933-6f6d-41a3-9d08-3a6b1fd15f96")
-	)
-	(wire
-		(pts
 			(xy 105.41 149.86) (xy 88.9 149.86)
 		)
 		(stroke
@@ -1467,36 +1553,6 @@
 			(type default)
 		)
 		(uuid "81c640f4-e71b-48dc-b3eb-3373de4fbac8")
-	)
-	(wire
-		(pts
-			(xy 105.41 165.1) (xy 88.9 165.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "90f92ed0-c061-456b-941b-aae6986a1dd2")
-	)
-	(wire
-		(pts
-			(xy 88.9 168.91) (xy 105.41 168.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "91d450bc-e51e-42e6-ac7b-966b93dc518f")
-	)
-	(wire
-		(pts
-			(xy 105.41 161.29) (xy 88.9 161.29)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "94bee882-ea29-4da5-ac93-e09455c9d157")
 	)
 	(wire
 		(pts
@@ -1537,16 +1593,6 @@
 			(type default)
 		)
 		(uuid "bbb90de7-8e81-4374-8251-dd57128ad5c1")
-	)
-	(wire
-		(pts
-			(xy 59.69 157.48) (xy 59.69 171.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d9a73b93-250f-4c1d-940d-65dfc9bc892a")
 	)
 	(wire
 		(pts
@@ -1598,17 +1644,6 @@
 		)
 		(uuid "fe346717-a0f2-4d9d-b86e-7100993617cb")
 	)
-	(hierarchical_label "CLK"
-		(shape output)
-		(at 105.41 153.67 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "1bb2c3d2-d052-46ee-bb52-126160e589a3")
-	)
 	(hierarchical_label "MSB"
 		(shape output)
 		(at 105.41 172.72 0)
@@ -1641,17 +1676,6 @@
 			(justify right)
 		)
 		(uuid "5bd64473-7372-4567-89fc-ddda300d8edd")
-	)
-	(hierarchical_label "SDO"
-		(shape output)
-		(at 105.41 157.48 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "6b4a2353-963c-4b62-846e-567e1434fffc")
 	)
 	(hierarchical_label "~{CS}"
 		(shape output)
@@ -1697,17 +1721,6 @@
 		)
 		(uuid "80c12897-4015-41e1-95fa-5893fd12c69a")
 	)
-	(hierarchical_label "~{CS}"
-		(shape output)
-		(at 105.41 165.1 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "92ae24e7-76e7-4d2e-a111-eaaf4652d7b1")
-	)
 	(hierarchical_label "SDO"
 		(shape output)
 		(at 119.38 111.76 180)
@@ -1730,17 +1743,6 @@
 		)
 		(uuid "b5451b4c-fffb-4d2d-aa38-8215757ed84a")
 	)
-	(hierarchical_label "SDI"
-		(shape output)
-		(at 105.41 161.29 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "ba58ad7f-db14-44ab-812e-a2434210d34b")
-	)
 	(hierarchical_label "~{RS}"
 		(shape output)
 		(at 105.41 149.86 0)
@@ -1752,17 +1754,6 @@
 		)
 		(uuid "d53a34df-d8a5-4c0a-9ff7-1e01bfb1c8ee")
 	)
-	(hierarchical_label "~{LDAC}"
-		(shape output)
-		(at 105.41 168.91 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "dba3b0f2-23a9-4cbe-a7c7-65d3245f9bff")
-	)
 	(hierarchical_label "~{RS}"
 		(shape output)
 		(at 119.38 96.52 180)
@@ -1773,158 +1764,6 @@
 			(justify right)
 		)
 		(uuid "f9591c6d-1920-433a-939b-44b4ac8bd1b4")
-	)
-	(symbol
-		(lib_id "power:GNDD")
-		(at 59.69 171.45 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00005ed1133a")
-		(property "Reference" "#PWR0205"
-			(at 59.69 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GNDD"
-			(at 59.7916 175.387 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 59.69 171.45 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 59.69 171.45 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 59.69 171.45 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "ed851e11-be4e-4543-aaf5-4e403b5ef3bd")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "#PWR0205")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 59.69 157.48 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00005ed1172e")
-		(property "Reference" "#FLG0104"
-			(at 59.69 155.575 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 59.69 153.0858 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 59.69 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 59.69 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 59.69 157.48 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "7ef9a32f-deb4-406f-ba1e-b186a45849c2")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "#FLG0104")
-					(unit 1)
-				)
-			)
-		)
 	)
 	(symbol
 		(lib_id "MCU_Module:Arduino_Nano_Every")
@@ -1947,7 +1786,7 @@
 				)
 			)
 		)
-		(property "Value" "Arduino_Nano_Every"
+		(property "Value" "Arduino_Nano_R4"
 			(at 127 123.19 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1990,7 +1829,7 @@
 				)
 			)
 		)
-		(property "MPN" "ABX00028"
+		(property "MPN" "ABX00143"
 			(at 148.59 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2001,7 +1840,7 @@
 				)
 			)
 		)
-		(property "DigiKey" "https://www.digikey.com/en/products/detail/arduino/ABX00028/10239971"
+		(property "DigiKey" "https://www.digikey.com/en/products/detail/arduino/ABX00143/26766495"
 			(at 148.59 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2112,7 +1951,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GNDD")
+		(lib_id "power:GND")
 		(at 148.59 125.73 0)
 		(unit 1)
 		(body_style 1)
@@ -2133,7 +1972,7 @@
 				)
 			)
 		)
-		(property "Value" "GNDD"
+		(property "Value" "GND"
 			(at 148.6916 129.667 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2182,386 +2021,6 @@
 			(project "Low_Current_Driver"
 				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
 					(reference "#PWR0196")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Probe")
-		(at 88.9 153.67 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-000062359791")
-		(property "Reference" "TP23"
-			(at 83.82 153.67 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TestPoint_Probe"
-			(at 87.503 148.6154 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 88.9 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 88.9 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 88.9 153.67 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "521af778-61d2-487a-bfb6-9a517a2af95a")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "TP23")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Probe")
-		(at 88.9 157.48 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006235ae95")
-		(property "Reference" "TP24"
-			(at 83.82 157.48 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TestPoint_Probe"
-			(at 87.503 152.4254 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 88.9 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 88.9 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 88.9 157.48 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "65b3c942-9a8a-459c-bc8c-2b15ed40522c")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "TP24")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Probe")
-		(at 88.9 161.29 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006235b2b6")
-		(property "Reference" "TP25"
-			(at 83.82 161.29 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TestPoint_Probe"
-			(at 87.503 156.2354 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 88.9 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 88.9 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 88.9 161.29 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "91fbe0aa-b5ce-464f-a651-8be17cf66647")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "TP25")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Probe")
-		(at 88.9 165.1 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006235b763")
-		(property "Reference" "TP26"
-			(at 83.82 165.1 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TestPoint_Probe"
-			(at 87.503 160.0454 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 88.9 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 88.9 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 88.9 165.1 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f1d2c010-cef4-4405-98af-0aa16f71c646")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "TP26")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Probe")
-		(at 88.9 168.91 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006235ba99")
-		(property "Reference" "TP27"
-			(at 83.82 168.91 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TestPoint_Probe"
-			(at 87.503 163.8554 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 88.9 163.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 88.9 163.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 88.9 168.91 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "0a6d7b57-0c98-43d2-977c-971f18ab45a4")
-		)
-		(instances
-			(project "Low_Current_Driver"
-				(path "/f3b999b2-351b-4bd9-b912-3db082ddbf64/00000000-0000-0000-0000-00005e1deb8c"
-					(reference "TP27")
 					(unit 1)
 				)
 			)

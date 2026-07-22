@@ -53,7 +53,7 @@ R_sense: low-tempco foil/metal-film, sized so V_sense ≫ op-amp offset. DAC: �
 Working KiCad project: `Hardware/Low_Current_Driver/` — a duplicate of the Strathclyde Vernier LCD reference design, kept alongside its own copy of `Common/` since the lib tables use `${KIPRJMOD}/../Common/...` relative paths. Pruned to 2 drive channels (z-axis common/differential — matches current single-axis scope). The stray upstream clone under `docs/Vernier-Current-Driver/` is left untouched as reference — `Hardware/Low_Current_Driver/` is the only one that should be edited.
 
 **Board specifics (settled, schematic-verified):**
-- **MCU: Arduino Nano R4** (replaces the reference design's ESP32-S3). The digital 5 V rail (`5VD`) is sourced from the Nano's own 5 V pin, not an on-board regulator. Leftover ESP32-S3 symbol/footprint/STEP files still sit in `Hardware/` from the abandoned choice and can be removed.
+- **MCU: Arduino Nano R4** (replaces the reference design's ESP32-S3). The digital 5 V rail (`5VD`) is sourced from the Nano's own 5 V pin, not an on-board regulator. The ESP32-S3 symbol/footprint/STEP leftovers have been deleted and its `sym-lib-table` entry removed.
 - **Analog rails: ±9 V** (`Power.kicad_sch`), down from the reference design's ±12 V — verified as adequate for the op-amp swing needed. The battery/input stage on `Battery_Management.kicad_sch` still carries ±12 V nets (regulated down to the ±9 V rails).
 - **Coil connections: Molex Micro-Fit inline connectors** — enamel coil wire spliced to a silicone-wire pigtail, crimped into a Micro-Fit, mated to a matching PCB-side connector.
 - Schematic ERC is clean (power flags added where the reference relied on the ESP for them). Now at the PCB-routing stage.
