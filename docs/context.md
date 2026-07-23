@@ -34,6 +34,16 @@ The single-shot M⁻¹ solve applied every timeslice is itself a P-controller wi
 
 Two nested loops in series: external coil loop = coarse acquisition into the QuSpin's ±few-nT capture range; QuSpin's internal null = fine trim. Bootstrapping: QuSpins are saturated on day 1, so the fluxgate does initial characterization until they come into range, then the OPMs become the loop sensor.
 
+## Sensor data path (settled 2026-07-24)
+
+How QZFM readings reach the coil driver. Each QZFM electronics module has **two independent outputs to the PC**: (1) **analog** — BNC per axis, ±5 V rail-to-rail, gain-selectable (2.7 V/nT default, 0.9 V/nT low, 8.1 V/nT high), read by the lab's NI DAQ (NI-9205, QuSpin's recommended unit); (2) **USB digital serial** — an FT232RL virtual COM port (115200 8N1) used by the QuSpin UI for calibration/zeroing/gain, which also streams 24-bit field values on the `Print ON` command (`(raw − 8388608) × 0.01 = pT`).
+
+**Chosen path: PC-in-the-loop ("A1").** fields → NI-9205 (or QZFM USB serial) → PC (Python PID) → USB → Nano R4 → DAC8814 (SPI) → coils. The **MCU is a DAC bridge**, not the controller: it translates USB current commands to SPI DAC writes, holds the last-commanded current, and drops to safe-state (zero-current code) if the PC stops. Rationale: the loop is DC/quasi-static (<~few Hz), so the PC round-trip (~5–30 ms) is irrelevant — Holmes ran a harder moving-target loop at 40 Hz / 25 ms; **v010 already implements A1 with no board change**; and a PC is required in the room for the QuSpin UI regardless, so full MCU autonomy buys little (see [autonomous mode](#improvements--extensions-deferred) in Extensions).
+
+**Ruled out: "NI DAQ → MCU directly."** An NI USB/cDAQ device is a USB peripheral requiring the NI-DAQmx driver stack on a host PC; the Nano R4 cannot host it. There is no DAQ→Arduino path.
+
+**Capture-range caveat:** the QZFM analog output clips at ±1.85 nT (default gain) / ±5.5 nT (low gain), so the OPMs are only usable as the loop sensor once the field is already within range — the fluxgate must carry the bootstrap phase whichever routing is used.
+
 ## Electronics (settled)
 
 Architecture: MCU → DAC → voltage-controlled current source (VCCS) per coil. Rejected DAC + series resistor (current = V/R_total drifts with coil copper temperature). VCCS uses a precision sense resistor inside the op-amp feedback loop so current is pinned at V_control/R_sense regardless of coil resistance.
@@ -48,9 +58,9 @@ Spec priority, in order:
 
 R_sense: low-tempco foil/metal-film, sized so V_sense ≫ op-amp offset. DAC: ≥16-bit floor, resolution set by (total field span / capture range); possibly coarse+fine split.
 
-## PCB (settled — as-built for first prototype)
+## PCB (settled — as-built for first prototype, rev 0.1 / "v010")
 
-Working KiCad project: `Hardware/Low_Current_Driver/` — a duplicate of the Strathclyde Vernier LCD reference design, kept alongside its own copy of `Common/` since the lib tables use `${KIPRJMOD}/../Common/...` relative paths. The stray upstream clone under `docs/Vernier-Current-Driver/` is left untouched as reference — `Hardware/Low_Current_Driver/` is the only one that should be edited.
+The first prototype is board **rev 0.1** (schematic title-block `rev "0.1"`), referred to as **"v010"**; the next respin is **v011**. Working KiCad project: `Hardware/Low_Current_Driver/` — a duplicate of the Strathclyde Vernier LCD reference design, kept alongside its own copy of `Common/` since the lib tables use `${KIPRJMOD}/../Common/...` relative paths. The stray upstream clone under `docs/Vernier-Current-Driver/` is left untouched as reference — `Hardware/Low_Current_Driver/` is the only one that should be edited.
 
 **Hierarchy (after the multichannel refactor):** root → `DAC` (→ `DAC_OPA` ×2, the A/B DAC buffers) · `MCU` · `Channel_Outputs` ×2 (`Coil_Drive_A`, `Coil_Drive_B`). The two coil drive channels are native KiCad multichannel instances of one `Channel_Outputs` sheet (z-axis common/differential — matches current single-axis scope). The reference design's `Power`, `Battery_Management`, and `Mounting_Holes` sheets were **removed** — see power entry below.
 
@@ -60,7 +70,7 @@ Working KiCad project: `Hardware/Low_Current_Driver/` — a duplicate of the Str
 - **Coil connections: Molex Micro-Fit inline connectors** (`J1`, `J2`) — enamel coil wire spliced to a silicone-wire pigtail, crimped into a Micro-Fit, mated to a matching PCB-side connector.
 - **Schematic ERC:** the two active drive channels (DAC A/B → buffers → coils) are clean. Two residual ERC errors remain on the DAC8814's **unused** C/D current outputs (`Iout_C`/`Iout_D` tied together and parked with a `PWR_FLAG`) — schematic-annotation only, no functional or copper impact; left as-is for the prototype.
 
-**First-prototype scope cut (deadline-driven, revisit before any lab-deployed build)**: project ships by roughly end of next week (~2026-07-24, stated 2026-07-16) and shipping alone takes a week, so the first board trades robustness for speed. On-board power conditioning is omitted wholesale: no regulation (raw ±9 V comes straight from the battery pack), no reverse-polarity protection (MOSFET pair / polyfuses / TVS), no power-good LEDs or front-panel LED connector. A hard DPST switch (`SW1`) is the only power control — no soft on/off. Net effect: the board depends on a correctly-wired ±9 V source (battery pack or bench supply) and is unprotected against a reversed or over-voltage input. Acceptable for the bench-test/characterization build only; the project's own "operable by any lab member without the engineer present" deliverable goal implies regulation, protection, and idiot-proof power entry belong in whatever board actually ships to the lab.
+**First-prototype scope cut (revisit before any lab-deployed build)**: the first board deliberately trades robustness for speed to get a characterization prototype on the bench. On-board power conditioning is omitted wholesale: no regulation (raw ±9 V comes straight from the battery pack), no reverse-polarity protection (MOSFET pair / polyfuses / TVS), no power-good LEDs or front-panel LED connector. A hard DPST switch (`SW1`) is the only power control — no soft on/off. Net effect: the board depends on a correctly-wired ±9 V source (battery pack or bench supply) and is unprotected against a reversed or over-voltage input. Acceptable for the bench-test/characterization build only; the project's own "operable by any lab member without the engineer present" deliverable goal implies regulation, protection, and idiot-proof power entry belong in whatever board actually ships to the lab.
 
 ## Protection — coil/op-amp side (settled by analysis)
 
@@ -97,6 +107,19 @@ Distinct from the reverse-polarity/idiot-proofing cuts above: the inductive-tran
 - Whether gradient control is needed at all: uniform-only cancellation leaves each sensor at ±(gradient×a); if that residual is below QuSpin capture range (~few nT), differential control can be skipped. Sensors are close together so uniform-only likely suffices, but the fluxgate campaign must measure the actual gradient across the baseline before deciding.
 - Actual QZFM triaxial output and sensor separation vector — fixes H and the true loop count
 - Coil geometry — determines whether the op-amp drives the coil directly (tens of mA, simple) or needs a pass transistor / power op-amp (amps, op-amp becomes the controller with R_sense staying in loop). Working estimate (≈4 µH inductance, ≤10 mA full-scale for a ±10 nT trim) sits firmly in the direct-drive regime, so no pass transistor is planned — provisional until the coil transfer function is bench-measured.
+
+## Improvements / Extensions (deferred)
+
+Forward-looking work that is understood but deliberately **not** in v010. Consolidated here so a v011 respin has a single checklist. Each item is traceable to a decision or measurement gap above.
+
+- **Autonomous mode (no PC in the control loop).** The chosen path is PC-in-the-loop (see [Sensor data path](#sensor-data-path-settled-2026-07-24)); autonomous mode moves the PID onto the MCU and reads the QZFM analog outputs directly, so the box cancels with the PC out of the loop (NI DAQ demoted to logging/characterization). Requires a v011 respin: a **6-channel bipolar analog front-end** (±5 V QZFM outputs → attenuate + offset + anti-alias into ADC range) feeding a **dedicated SPI ADC** (≥16-bit, e.g. ADS1256-class) rather than the Nano R4's 14-bit unipolar onboard ADC. Justified only if a standalone (PC-free) controller is wanted — the QuSpin UI already needs a PC in the room, so this is a feature, not a requirement. The ±1.85/±5.5 nT analog clip still applies: the fluxgate carries bootstrap regardless.
+- **Power conditioning + protection** (the first-prototype scope cut, above). For any lab-deployed board: on-board regulation (reference design's ±12→±9 LDOs or equivalent), reverse-polarity protection (MOSFET pair / polyfuses / TVS), power-good LEDs + front-panel LED connector, and ideally soft on/off replacing the hard DPST switch. v010 depends on a correctly-wired ±9 V source and is unprotected against reversal/over-voltage — bench-only. The "operable by any lab member" deliverable implies these belong on the shipped board.
+- **Full 3-axis uniform cancellation.** v010 is z-axis only (2 channels: common/differential Bz). A full uniform-vector null needs 3 orthogonal coil pairs (Bx, By, Bz). The native multichannel sheet structure makes replicating the drive channel cheap; the DAC8814 is quad (2 channels used, 2 spare — one more axis fits before a second DAC is needed). Real constraints are board area and coil connectors.
+- **Gradient control — decide, then possibly drop.** Whether differential (gradient) drive is needed at all depends on the measured gradient across the sensor baseline. If uniform-only cancellation leaves each sensor below QuSpin capture range, differential drive can be dropped, halving channels per axis. Blocked on the fluxgate gradient measurement (see What is not yet known).
+- **Drop the NI DAQ from the loop.** Read fields straight off the QZFM USB serial (`Print ON`, 24-bit) if the stream rate suffices for a few-Hz loop, removing the NI-9205 from the control path: QZFM USB → PC → MCU USB. Keep the DAQ only for characterization/logging. Confirm the serial stream rate in the lab before committing.
+- **Higher coil current (pass transistor / power op-amp).** Direct-drive (≤10 mA, Howland pump) assumes the ≈4 µH / ±10 nT working estimate holds. If the bench-measured coil transfer function needs >~50 mA, Howland degrades (sense-resistor self-heating unbalances the bridge) — switch to series-sense and/or add a pass transistor with R_sense kept in the loop.
+- **DAC coarse+fine split.** If the required resolution (total field span / capture range) exceeds a single 16-bit DAC's usable range, split into summed coarse+fine DACs. Not needed at current working numbers; revisit after the field magnitude is measured.
+- **MCU VIN backfeed diode (D1).** Conditional item from the protection analysis: only if the Nano R4 backfeeds VIN when USB-powered with ±9 V off. One measurement decides (VIN under USB-only power: ~0 V → no diode; ~4–5 V → series Schottky on VIN). Cheap to add on a respin.
 
 ## Resources
 - A working example or capturing data from the qzfms can be seen in the repo
